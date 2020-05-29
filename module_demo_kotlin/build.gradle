@@ -1,0 +1,40 @@
+apply from: "../common_component_build.gradle"
+
+//注意 kotlin 混合编程引入Arouter 无法找到 匹配路径
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+kapt {
+    generateStubs = true
+}
+
+android {
+    resourcePrefix "kotlin_" //给 Module 内的资源名增加前缀, 避免资源名冲突 🏝️
+
+    kapt {
+        arguments {
+            arg("moduleName", project.getName())
+        }
+        generateStubs = true
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //  👇 依赖协程核心库
+//    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines"
+    //  👇 依赖当前平台所对应的平台库
+//    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines"
+
+    kapt rootProject.ext.dependencies["dagger2-compiler"]
+
+    api project(":CommonRes")
+    //因为 CommonRes 依赖了 CommonSDK, 所以如果业务模块需要公共 UI 组件就依赖 CommonRes, 如果不需要就只依赖 CommonSDK
+    api project(":CommonService")
+}
+ 

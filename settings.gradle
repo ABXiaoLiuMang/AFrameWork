@@ -1,0 +1,10 @@
+include ':app',
+        ':CommonBase',
+        ':CommonSDK',
+        ':CommonService',
+        ':CommonRes',
+        ':CommonImageloader',
+        ':CommonWebView',
+        ':module_demo_java',
+        ':module_demo_kotlin'
+

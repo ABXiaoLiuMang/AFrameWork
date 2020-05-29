@@ -1,0 +1,76 @@
+apply plugin: 'com.android.library'
+
+//注意 kotlin 混合 引起的问题 Arouter无法找到匹配路径 kapt注解相关 类的跨模块引用
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+
+        testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "boolean", "USE_CANARY", "true"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "USE_CANARY", "false"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+
+    //基础base库
+    api project(":CommonBase")
+
+    //圖片加載框架
+    api project(":CommonImageloader")
+
+    //tools
+    api rootProject.ext.dependencies["androideventbus"]
+    api(rootProject.ext.dependencies["arouter"]) {
+        exclude module: 'support-v4'
+        exclude module: 'support-annotations'
+    }
+
+    //存儲
+    api rootProject.ext.dependencies["mmkv"]
+
+    //工具
+    api rootProject.ext.dependencies["utilcode"]
+
+    //动态host
+    api rootProject.ext.dependencies["retrofit-url-manager"]
+
+    //抓包 Chrome，在地址栏输入chrome://inspect/
+    api rootProject.ext.dependencies["stetho"]
+    api rootProject.ext.dependencies["stethoOkhttp3"]
+    
+    //qmui UI框架
+    api rootProject.ext.dependencies["qmui"]
+    api rootProject.ext.dependencies["cymchad"]
+
+}

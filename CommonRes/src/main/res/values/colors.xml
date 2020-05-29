@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="public_colorPrimary">#53A7F3</color>
+    <color name="public_colorPrimaryDark">#53A7F3</color>
+    <color name="public_colorAccent">#F55122</color>
+    <color name="public_white">#FFFFFF</color>
+    <color name="public_black">#000000</color>
+    <color name="public_color_transparent">#00000000</color>
+    <color name="public_color_FFFFFF">#FFFFFF</color>
+    <color name="public_color_FFFFFFFF">#FFFFFFFF</color>
+</resources>
